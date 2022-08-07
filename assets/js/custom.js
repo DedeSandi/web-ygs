@@ -26,9 +26,6 @@ function tglIndo(string) {
 $.ajax({
   type: "get",
   url: "https://web-ygs.000webhostapp.com/memberygs",
-  headers: {
-    "Content-Type": "application/json",
-  },
   dataType: "json",
   success: function (response) {
     $.each(response, function (indexInArray, data) {
@@ -58,9 +55,6 @@ $.ajax({
 $.ajax({
   type: "get",
   url: "https://web-ygs.000webhostapp.com/api/artikel",
-  headers: {
-    "Content-Type": "application/json",
-  },
   dataType: "json",
   success: function (response) {
     $.each(response, function (indexInArray, data) {
