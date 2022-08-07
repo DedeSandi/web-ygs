@@ -25,7 +25,7 @@ function tglIndo(string) {
 
 $.ajax({
   type: "get",
-  url: "localhost/ygs-banjarngkan/public/memberygs",
+  url: "https://web-ygs.000webhostapp.com/memberygs",
   headers: {
     "Content-Type": "application/json",
   },
