@@ -23,43 +23,31 @@ function tglIndo(string) {
   return tanggal + " " + bulanIndo[Math.abs(bulan)] + " " + tahun;
 }
 
-$.ajax({
-  type: "get",
-  url: "https://web-ygs.000webhostapp.com/memberygs",
-  dataType: "json",
-  success: function (response) {
-    $.each(response, function (indexInArray, data) {
-      $("#members").append(`
-         <div class="col-md-3">
-         <div class="member">
-           <div class="pic">
-             <img src="${data.foto_path}" alt=""  id="${data.id}"/>
-           </div>
-           <h4>${data.fullname}</h4>
-           <span>${data.jabatan}</span>
-           <div class="social">
-             <a href="${data.twitter}"><i class="bi bi-twitter"></i></a>
-             <a href="${data.facebook}"><i class="bi bi-facebook"></i></a>
-             <a href="${data.instagram}"><i class="bi bi-instagram"></i></a>
-             <a href="${data.linkedin}"><i class="bi bi-linkedin"></i></a>
-           </div>
+$.getJSON("https://web-ygs.000webhostapp.com/memberygs", function (response) {
+  $.each(response, function (indexInArray, data) {
+    $("#members").append(`
+       <div class="col-md-3">
+       <div class="member">
+         <div class="pic">
+           <img src="${data.foto_path}" alt=""  id="${data.id}"/>
          </div>
-       </div>`);
-    });
-  },
-  error: function ajaxError(jqXHR) {
-    console.error("Error: ", jqXHR.responseText);
-  },
+         <h4>${data.fullname}</h4>
+         <span>${data.jabatan}</span>
+         <div class="social">
+           <a href="${data.twitter}"><i class="bi bi-twitter"></i></a>
+           <a href="${data.facebook}"><i class="bi bi-facebook"></i></a>
+           <a href="${data.instagram}"><i class="bi bi-instagram"></i></a>
+           <a href="${data.linkedin}"><i class="bi bi-linkedin"></i></a>
+         </div>
+       </div>
+     </div>`);
+  });
 });
 
-$.ajax({
-  type: "get",
-  url: "https://web-ygs.000webhostapp.com/api/artikel",
-  dataType: "json",
-  success: function (response) {
-    $.each(response, function (indexInArray, data) {
-      $("#post-view").append(
-        `<div class="post-preview">
+$.getJSON("https://web-ygs.000webhostapp.com/api/artikel", function (response) {
+  $.each(response, function (indexInArray, data) {
+    $("#post-view").append(
+      `<div class="post-preview">
       <a href="post.html">
         <h2 class="post-title" data-id="${data.id_post}">
           ${data.post_title}
@@ -76,12 +64,8 @@ $.ajax({
     </div>
     <!-- Divider-->
     <hr class="my-4" />`
-      );
-    });
-  },
-  error: function ajaxError(jqXHR) {
-    console.error("Error: ", jqXHR.responseText);
-  },
+    );
+  });
 });
 
 $("#post-view").click(function (e) {
