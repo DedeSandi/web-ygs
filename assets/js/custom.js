@@ -52,7 +52,7 @@ $.getJSON("https://web-ygs.000webhostapp.com/api/artikel", function (response) {
         <h2 class="post-title" data-id="${data.id_post}">
           ${data.post_title}
         </h2>
-        <h3 class="post-subtitle">
+        <h3 class="post-subtitle" data-id="${data.id_post}">
         ${data.post_desc}
         </h3>
       </a>
@@ -73,19 +73,14 @@ $("#post-view").click(function (e) {
   let id = e.target.getAttribute("data-id");
 
   if (id != null) {
-    $.ajax({
-      type: "get",
-      url: `http://127.0.0.1/ygs-banjarngkan/public/api/artikel/${id}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      dataType: "json",
-      success: function (response) {
+    $.getJSON(
+      "https://web-ygs.000webhostapp.com/api/artikel/" + id,
+      function (response) {
         localStorage.setItem("artikel", JSON.stringify(response));
         // Save the obj as string
         window.open("post.html", "_self");
-      },
-    });
+      }
+    );
   }
 });
 
