@@ -23,64 +23,132 @@ function tglIndo(string) {
   return tanggal + " " + bulanIndo[Math.abs(bulan)] + " " + tahun;
 }
 
-$.getJSON("https://web-ygs.000webhostapp.com/memberygs", function (response) {
-  $.each(response, function (indexInArray, data) {
-    $("#members").append(`
-       <div class="col-md-3">
-       <div class="member">
-         <div class="pic">
-           <img src="${data.foto_path}" alt=""  id="${data.id}"/>
+$.ajax({
+  type: "get",
+  url: "https://web-ygs.000webhostapp.com/memberygs",
+  dataType: "json",
+  success: function (response) {
+    $.each(response, function (indexInArray, data) {
+      $("#members").append(`
+         <div class="col-md-3">
+         <div class="member">
+           <div class="pic">
+             <img src="${data.foto_path}" alt=""  id="${data.id}"/>
+           </div>
+           <h4>${data.fullname}</h4>
+           <span>${data.jabatan}</span>
+           <div class="social">
+             <a href="${data.twitter}"><i class="bi bi-twitter"></i></a>
+             <a href="${data.facebook}"><i class="bi bi-facebook"></i></a>
+             <a href="${data.instagram}"><i class="bi bi-instagram"></i></a>
+             <a href="${data.linkedin}"><i class="bi bi-linkedin"></i></a>
+           </div>
          </div>
-         <h4>${data.fullname}</h4>
-         <span>${data.jabatan}</span>
-         <div class="social">
-           <a href="${data.twitter}"><i class="bi bi-twitter"></i></a>
-           <a href="${data.facebook}"><i class="bi bi-facebook"></i></a>
-           <a href="${data.instagram}"><i class="bi bi-instagram"></i></a>
-           <a href="${data.linkedin}"><i class="bi bi-linkedin"></i></a>
-         </div>
-       </div>
-     </div>`);
-  });
+       </div>`);
+    });
+  },
 });
 
-$.getJSON("https://web-ygs.000webhostapp.com/api/artikel", function (response) {
-  $.each(response, function (indexInArray, data) {
-    $("#post-view").append(
-      `<div class="post-preview">
-      <a href="post.html">
-        <h2 class="post-title" data-id="${data.id_post}">
-          ${data.post_title}
-        </h2>
-        <h3 class="post-subtitle" data-id="${data.id_post}">
-        ${data.post_desc}
-        </h3>
-      </a>
-      <p class="post-meta">
-        Posted by
-        <a href="#!">${data.username}</a>
-        on ${tglIndo(data.post_time)}
-      </p>
-    </div>
-    <!-- Divider-->
-    <hr class="my-4" />`
-    );
-  });
+// $.getJSON("https://web-ygs.000webhostapp.com/memberygs", function (response) {
+//   $.each(response, function (indexInArray, data) {
+//     $("#members").append(`
+//        <div class="col-md-3">
+//        <div class="member">
+//          <div class="pic">
+//            <img src="${data.foto_path}" alt=""  id="${data.id}"/>
+//          </div>
+//          <h4>${data.fullname}</h4>
+//          <span>${data.jabatan}</span>
+//          <div class="social">
+//            <a href="${data.twitter}"><i class="bi bi-twitter"></i></a>
+//            <a href="${data.facebook}"><i class="bi bi-facebook"></i></a>
+//            <a href="${data.instagram}"><i class="bi bi-instagram"></i></a>
+//            <a href="${data.linkedin}"><i class="bi bi-linkedin"></i></a>
+//          </div>
+//        </div>
+//      </div>`);
+//   });
+// });
+
+$.ajax({
+  type: "get",
+  url: "https://web-ygs.000webhostapp.com/api/artikel",
+  dataType: "json",
+  success: function (response) {
+    $.each(response, function (indexInArray, data) {
+      $("#post-view").append(
+        `<div class="post-preview">
+        <a href="post.html">
+          <h2 class="post-title" data-id="${data.id_post}">
+            ${data.post_title}
+          </h2>
+          <h3 class="post-subtitle" data-id="${data.id_post}">
+          ${data.post_desc}
+          </h3>
+        </a>
+        <p class="post-meta">
+          Posted by
+          <a href="#!">${data.username}</a>
+          on ${tglIndo(data.post_time)}
+        </p>
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />`
+      );
+    });
+  },
 });
+
+// $.getJSON("https://web-ygs.000webhostapp.com/api/artikel", function (response) {
+//   $.each(response, function (indexInArray, data) {
+//     $("#post-view").append(
+//       `<div class="post-preview">
+//       <a href="post.html">
+//         <h2 class="post-title" data-id="${data.id_post}">
+//           ${data.post_title}
+//         </h2>
+//         <h3 class="post-subtitle" data-id="${data.id_post}">
+//         ${data.post_desc}
+//         </h3>
+//       </a>
+//       <p class="post-meta">
+//         Posted by
+//         <a href="#!">${data.username}</a>
+//         on ${tglIndo(data.post_time)}
+//       </p>
+//     </div>
+//     <!-- Divider-->
+//     <hr class="my-4" />`
+//     );
+//   });
+// });
 
 $("#post-view").click(function (e) {
   e.preventDefault();
   let id = e.target.getAttribute("data-id");
 
+  // if (id != null) {
+  //   $.getJSON(
+  //     "https://web-ygs.000webhostapp.com/api/artikel/" + id,
+  //     function (response) {
+  //       localStorage.setItem("artikel", JSON.stringify(response));
+  //       // Save the obj as string
+  //       window.open("post.html", "_self");
+  //     }
+  //   );
+  // }
+
   if (id != null) {
-    $.getJSON(
-      "https://web-ygs.000webhostapp.com/api/artikel/" + id,
-      function (response) {
+    $.ajax({
+      type: "get",
+      url: "https://web-ygs.000webhostapp.com/api/artikel/" + id,
+      dataType: "json",
+      success: function (response) {
         localStorage.setItem("artikel", JSON.stringify(response));
         // Save the obj as string
         window.open("post.html", "_self");
-      }
-    );
+      },
+    });
   }
 });
 
